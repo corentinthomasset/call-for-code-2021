@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="18px" viewBox="0 0 16 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Leaf Copy 4</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.796078 0 0 0 0 0.811765 0 0 0 0 0.831373 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+        <linearGradient x1="75.9589528%" y1="6.80406958%" x2="71.9881188%" y2="93.6868042%" id="linearGradient-2">
+            <stop stop-color="#3AD800" offset="0%"></stop>
+            <stop stop-color="#009014" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iPhone-12-Pro" transform="translate(-239.000000, -169.000000)">
+            <g id="Grade" transform="translate(107.000000, 91.000000)">
+                <g id="Leaf-Copy-4" transform="translate(0.000000, 72.000000)" filter="url(#filter-1)">
+                    <g transform="translate(132.000000, 6.000000)">
+                        <path d="M7.47602981,15.7668563 C9.26731992,17.7328117 11.3876225,17.8602348 13.8369376,16.1491254 C17.5109101,13.5824614 15.5270707,1.31894272 14.9121754,0 C14.3761128,0.785084952 13.510667,1.3442546 12.3158379,1.67750894 C7.48079376,3.27939856 4.46008217,5.02691451 3.25370311,6.92005679 C2.04732405,8.81319907 1.82798241,10.4696986 2.59567817,11.8895553 C3.52183531,13.1637857 4.60026508,14.0557469 5.83096746,14.5654391 C2.94845762,17.0488466 -8.47610997e-14,16.3163817 -8.47610997e-14,17.3157857 C-8.47610997e-14,18.3151897 1.34020801,18.0744739 2.59567817,17.5143722 C3.85114833,16.9542706 6.17633213,15.7525752 8.90175051,12.8179231 C11.6271689,9.88327104 12.8432238,6.92005679 13.3982543,5.8824692 C12.59668,9.44127321 10.6226052,12.7360689 7.47602981,15.7668563 Z" id="Path-2-Copy-4" fill="url(#linearGradient-2)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
