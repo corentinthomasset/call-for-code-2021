@@ -2,11 +2,16 @@
   <div class="stock-card">
     <div class="stock-card-header">
       <div>
-        <h1>aapl</h1>
-        <h3>Apple Inc.</h3>
+        <h1>{{ stock.info.symbol }}</h1>
+        <h3>
+          {{ stock.info.longName.slice(0, 20)
+          }}<template v-if="stock.info.longName.length > 20">...</template>
+        </h3>
       </div>
       <div>
-        <span class="stock-perf">+10%</span>
+        <span class="stock-perf"
+          ><template v-if="perf > 0">+</template>{{ perf }}%</span
+        >
       </div>
     </div>
     <apexchart :height="250" :options="chartOptions" :series="series" />
@@ -19,11 +24,6 @@ export default {
   props: ["stock"],
   data() {
     return {
-      series: [
-        {
-          data: [31, 40, 28, 51, 42, 109, 100],
-        },
-      ],
       chartOptions: {
         chart: {
           type: "area",
@@ -49,6 +49,19 @@ export default {
         },
       },
     };
+  },
+  computed: {
+    series() {
+      let series = [];
+      let trend = {};
+      trend.data = Object.values(this.stock.market_data.Close);
+      series.push(trend);
+      return series;
+    },
+    perf() {
+      let trend = Object.values(this.stock.market_data.Close);
+      return Math.floor((1 - trend[0] / trend[trend.length - 1]) * 100);
+    },
   },
 };
 </script>
@@ -83,10 +96,6 @@ export default {
 .stock-card h1 {
   font-weight: 400;
   text-transform: uppercase;
-}
-
-.stock-card h3 {
-  margin-top: -10px;
 }
 
 .stock-perf {

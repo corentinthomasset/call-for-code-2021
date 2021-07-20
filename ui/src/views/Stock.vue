@@ -1,7 +1,10 @@
 <template>
-  <div id="stock" class="view" v-if="info.shortName">
+  <div id="stock" class="view" v-if="info && info.shortName">
     <div class="section stock-header">
-      <h1>{{ info.shortName }}</h1>
+      <h1>
+        {{ info.shortName.slice(0, 20)
+        }}<template v-if="info.shortName.length > 20">...</template>
+      </h1>
       <h3>{{ info.industry }}</h3>
     </div>
     <div class="section stock-environmental-rating">
@@ -20,12 +23,14 @@
         Swipe left to show greener stocks<br />
         with similar market trends
       </h3>
-      <hooper :centerMode="true" :itemsToShow="1.2" style="height: 350px">
-        <slide>
-          <StockCard />
-        </slide>
-        <slide>
-          <StockCard />
+      <hooper
+        :centerMode="true"
+        :itemsToShow="1.2"
+        style="height: 350px"
+        @slide="slideHandler"
+      >
+        <slide v-for="stock in stocks" :key="stock.info.symbol">
+          <StockCard :stock="stock" />
         </slide>
         <pagination slot="hooper-addons"></pagination>
       </hooper>
@@ -60,9 +65,15 @@
           <h3>ESG Rating</h3>
         </div>
         <ul class="esg-details">
-          <li>Environmental <b>{{ ratings.environment_grade }}</b></li>
-          <li>Social <b>{{ ratings.social_grade }}</b></li>
-          <li>Governance <b>{{ ratings.governance_grade }}</b></li>
+          <li>
+            Environmental <b>{{ ratings.environment_grade }}</b>
+          </li>
+          <li>
+            Social <b>{{ ratings.social_grade }}</b>
+          </li>
+          <li>
+            Governance <b>{{ ratings.governance_grade }}</b>
+          </li>
         </ul>
       </div>
       <apexchart
@@ -95,20 +106,9 @@ export default {
   },
   data() {
     return {
-      info: {},
-      ratings: {},
-      trend: {},
+      index: 0,
+      stocks: [],
       showFullSummary: false,
-      series: [
-        {
-          name: "Microsoft Corp.",
-          data: [250, 100, 235, 100, 195, 100],
-        },
-        {
-          name: "Apple Inc",
-          data: [210, 100, 205, 100, 205, 100],
-        },
-      ],
       chartOptions: {
         chart: {
           type: "radar",
@@ -133,6 +133,12 @@ export default {
     };
   },
   computed: {
+    info() {
+      return this.stocks[this.index]?.info;
+    },
+    ratings() {
+      return this.stocks[this.index]?.ratings[0];
+    },
     summary() {
       if (this.showFullSummary) {
         return this.info.longBusinessSummary;
@@ -140,15 +146,37 @@ export default {
         return this.info.longBusinessSummary.slice(0, 200);
       }
     },
+    series() {
+      return [
+        {
+          name: "Microsoft Corp.",
+          data: [250, 100, 235, 100, 195, 100],
+        },
+        {
+          name: "Apple Inc",
+          data: [210, 100, 205, 100, 205, 100],
+        },
+      ];
+    },
+  },
+  methods: {
+    slideHandler(payload) {
+      this.index = payload.currentSlide;
+    },
   },
   mounted() {
     this.$nextTick(() => {
-      this.$http.get(`/catchall/${this.ticker}`).then(response=>{
-        this.info = response.data.info
-        this.ratings = response.data.ratings[0]
-      }).catch(err=>{
-        console.log(err);
-      })
+      let tickers = ["aapl", "msft", "ibm", "ms"];
+      tickers.forEach((ticker) => {
+        this.$http
+          .get(`http://169.57.99.144:31544/catchall/${ticker}`)
+          .then((response) => {
+            this.stocks.push(response.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
     });
   },
 };
@@ -161,10 +189,6 @@ export default {
 
 .stock-header h1 {
   font-weight: 400;
-}
-
-.stock-header h3 {
-  margin-top: -5px;
 }
 
 .environmental-score {
@@ -200,6 +224,8 @@ export default {
   padding: 0 20px;
   opacity: 0.5;
   margin: 0;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .ratings-wrapper {
