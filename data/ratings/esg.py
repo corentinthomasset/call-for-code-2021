@@ -77,10 +77,25 @@ class ESG(object):
                                     logging.info(f'[{endpoint}] for [{company}] saved as: {company}_{endpoint}.json')
                                 else:
                                     docs = await resp.json()
-                                    for doc in docs:
-                                        if spec['db'].create_document(doc).exists():
-                                            await asyncio.sleep(0.5)
-                                            logging.info(f'[{endpoint}] for [{company}] stored in DB')
+
+                                    # Search CouchDB to see whether we have previously stored ratings/indicators for this ticker
+                                    selector={'$text': company}
+                                    try:
+                                        avail = spec['db'].get_query_result(selector,
+                                                                            use_index='byStockSymbol',
+                                                                            raw_result=True,
+                                                                            limit=100)
+                                    except ResultException as e:
+                                        logging.critical(f'Query failed: {e}')
+                                    else:
+                                        if len(avail['docs']) == 0:
+                                            logging.info(f'[{endpoint}] for [{company}] has not been previously processed ... adding')
+                                            for doc in docs:
+                                                if spec['db'].create_document(doc).exists():
+                                                    await asyncio.sleep(0.5)
+                                                    logging.info(f'[{endpoint}] for [{company}] stored in DB')
+                                        else:
+                                            logging.warning(f'[{endpoint}] for [{company}] has been previously processed ... skipping')
                             else:
                                 logging.error(f'Request failed for [{company}] ({resp.status}): {resp.text}')
                     except Exception as e:
@@ -94,7 +109,7 @@ class ESG(object):
 
     def _company(self):
         for line in self.companylist.readlines():
-            yield line.decode('utf-8').split('\t')[0]
+            yield line.decode('utf-8').split('\t')[0].strip()
 
 @click.command()
 @click.argument('companylist',

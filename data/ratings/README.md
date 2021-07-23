@@ -1,8 +1,29 @@
-# IBM call for code 2021
+# Utilities
+
+### Extract and save company info and market data
+
+``ticker_info.py`` is a utility script that uses Yahoo finance to retreive and store details and market data for a given company ticker. Here is the command line options and arguments:
+
+```asciidoc
+$ python ticker_info.py --help
+Usage: ticker_info.py [OPTIONS] COMPANYLIST
+
+  Store company details (info and market data) to IBM Cloudant
+
+  COMPANYLIST is a file containing company names.
+
+Options:
+  --cloudant-account TEXT  IBM Cloudant account  [required]
+  --cloudant-api-key TEXT  IBM Cloudant API key  [required]
+  -d, --debug              Show debug messages
+  --help                   Show this message and exit.
+```
+
+The script expects a plain text file containing the companies' symbols; e.g. the symbol for *Apple* is *AAPL*. It will then use the __Yahoo Finance__ library to retrieve company details and its market data and will store the results in ``ticker-details-ibm-cfc`` database which is hosted on an IBM Cloudant service on *__IBM Cloud__*. It also checks whether the details have been already inserted to the data store for a given ticker.  
 
 ### Extract and save ESG ratings and indicators
 
-_esg.py_ does two things:
+``esg.py`` does two things:
 
 * Consults __ESG Enterprise__ REST API to retrieve ESG ratings and indicators for a given company
 
@@ -39,6 +60,10 @@ It will then store the JSON responses in two separate Cloudant databases on __IB
 2. `esg-ratings-ibm-cfc` which stores the ratings for all companies
 
 We can then utilize Cloudant HTTP API to retrieve JSON documents from the above databases and expose them through a RESTful API.
+
+**Note**
+
+Please note that the script first checks whether the given ticker details exist in the data store and if not added before, it will continue the processing according to the above procedure.
 
 ---
 
