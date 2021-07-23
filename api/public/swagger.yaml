@@ -1,0 +1,267 @@
+swagger: '2.0'
+
+info:
+  version: "0.0.1"
+  title: ESG API 
+
+consumes:
+  - text/plain
+
+produces:
+  - application/json
+
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      description: Get health status of
+      tags:
+        - internal
+      responses:
+        200:
+          description: "Health check response"
+          schema:
+            $ref: "#/definitions/healthResponse"
+          examples:
+            application/json: { "status": "UP"}
+
+  /metrics:
+    get:
+      operationId: getMetrics
+      description: Get Prometheus metrics 
+      tags:
+        - internal
+      responses:
+        200:
+          description: "Prometheus metrics"
+
+  /ratings/{symbol}:
+    get:
+      operationId: getRating
+      description: Get ESG ratings for a given company 
+      tags:
+        - esg 
+      parameters:
+        - in: path 
+          name: symbol 
+          schema:
+            type: string 
+          required: true
+          description: Company's stock symbol 
+      responses:
+        200:
+          description: "ESG ratings"
+          schema:
+            $ref: "#/definitions/ESGRatings"
+          examples:
+            application/json: { "_id": "fcaa74ccc4f8b70ab02510b7d1cb24ed", "_rev": "1-a3e83b79899fd5852d34a45d42e474c1", "company_name": "Apple Inc.", "disclaimer": "ESG Enterprise's ESG Rating data (\"Scores\") are all based on public information and provided for informational purposes only. No member of ESG Enterprise or related parties make any prediction, warranty or representation whatsoever, expressly or impliedly, either as to the suitability of our Scores for any particular purposes or the validity of any derivative analysis or conclusion based on the Scores.", "environment_grade": "B", "environment_level": "Medium", "environment_score": 210, "esg_id": 502, "exchange_symbol": "NASDAQ", "governance_grade": "B", "governance_level": "Medium", "governance_score": 205, "last_processing_date": "19-06-2021", "social_grade": "B", "social_level": "Medium", "social_score": 205, "stock_symbol": "AAPL", "total": 620, "total_grade": "B", "total_level": "Medium" } 
+
+  /indicators/{symbol}:
+    get:
+      operationId: getIndicator
+      description: Get ESG indicators for a given company 
+      tags:
+        - esg 
+      parameters:
+        - in: path 
+          name: symbol 
+          schema:
+            type: string 
+          required: true
+          description: Company's stock symbol 
+      responses:
+        200:
+          description: "ESG indicators"
+          schema:
+            $ref: "#/definitions/ESGIndicators"
+          examples:
+            application/json: { "_id": "649e3dd6d8949eced51343f821cf6649", "_rev": "1-4ed9fcb01d18e6b71760002aa6f1c410", "company_name": "Apple Inc.", "disclaimer": "ESG Enterprise's ESG Rating data (\"Scores\") are all based on public information and provided for informational purposes only. No member of ESG Enterprise or related parties make any prediction, warranty or representation whatsoever, expressly or impliedly, either as to the suitability of our Scores for any particular purposes or the validity of any derivative analysis or conclusion based on the Scores.", "esg_id": 502, "exchange_symbol": "NASDAQ", "goals": [ { "sasb": "Systemic Risk Management - SASB", "score": 5, "sdg": "Reduce Inquality - U.N. SDG", "timestamp": "2021-06-19T05:37:53Z" }, { "sasb": "Human Rights & Community Relations - SASB", "score": 5, "sdg": "Peace, Justice & Strong Institutions - U.N. SDG", "timestamp": "2021-06-19T05:37:53Z" }, { "sasb": "Physical Impacts of Climate Change - SASB", "score": 5, "sdg": "Climate Action - U.N. SDG", "timestamp": "2021-06-19T05:00:00Z" } ], "stock_symbol": "AAPL" }
+
+  /catchall/{symbol}:
+    get:
+      operationId: catchAll 
+      description: Get all details for a given company 
+      tags:
+        - esg 
+      parameters:
+        - in: path 
+          name: symbol 
+          schema:
+            type: string 
+          required: true
+          description: Company's stock symbol 
+        - in: query
+          name: period 
+          schema:
+            type: string 
+          description: Fetch market data for the given company during the specified period 
+      responses:
+        200:
+          description: "Company details"
+          schema:
+            $ref: "#/definitions/catchAll"
+          examples:
+            application/json: { "indicators": [ { "_id": "649e3dd6d8949eced51343f821cf6649", "_rev": "1-4ed9fcb01d18e6b71760002aa6f1c410", "company_name": "Apple Inc.", "disclaimer": "ESG Enterprise's ESG Rating data (\"Scores\") are all based on public information and provided for informational purposes only. No member of ESG Enterprise or related parties make any prediction, warranty or representation whatsoever, expressly or impliedly, either as to the suitability of our Scores for any particular purposes or the validity of any derivative analysis or conclusion based on the Scores.", "esg_id": 502, "exchange_symbol": "NASDAQ", "goals": [ { "sasb": "Systemic Risk Management - SASB", "score": 5, "sdg": "Reduce Inquality - U.N. SDG", "timestamp": "2021-06-19T05:37:53Z" }, { "sasb": "Human Rights & Community Relations - SASB", "score": 5, "sdg": "Peace, Justice & Strong Institutions - U.N. SDG", "timestamp": "2021-06-19T05:37:53Z" }, { "sasb": "Physical Impacts of Climate Change - SASB", "score": 5, "sdg": "Climate Action - U.N. SDG", "timestamp": "2021-06-19T05:00:00Z" } ], "stock_symbol": "AAPL" } ], "info": { "52WeekChange": 0.4883461, "SandP52WeekChange": 0.3306805, "address1": "One Apple Park Way", "algorithm": null, "annualHoldingsTurnover": null, "annualReportExpenseRatio": null, "ask": 145.92, "askSize": 1300, "averageDailyVolume10Day": 100647766, "averageVolume": 84050601, "averageVolume10days": 100647766, "beta": 1.20729, "beta3Year": null, "bid": 145.91, "bidSize": 1200, "bookValue": 4.146, "category": null, "circulatingSupply": null, "city": "Cupertino", "companyOfficers": [], "country": "United States", "currency": "USD", "currentPrice": 146.39, "currentRatio": 1.142, "dateShortInterest": 1625011200, "dayHigh": 149.76, "dayLow": 145.88, "debtToEquity": 194.78, "dividendRate": 0.88, "dividendYield": 0.006, "earningsGrowth": 1.188, "earningsQuarterlyGrowth": 1.101, "ebitda": 99820003328, "ebitdaMargins": 0.30675, "enterpriseToEbitda": 25.123, "enterpriseToRevenue": 7.707, "enterpriseValue": 2507813421056, "exDividendDate": 1620345600, "exchange": "NMS", "exchangeTimezoneName": "America/New_York", "exchangeTimezoneShortName": "EDT", "expireDate": null, "fiftyDayAverage": 134.7097, "fiftyTwoWeekHigh": 150, "fiftyTwoWeekLow": 89.145, "financialCurrency": "USD", "fiveYearAverageReturn": null, "fiveYearAvgDividendYield": 1.32, "floatShares": 16670609616, "forwardEps": 5.34, "forwardPE": 27.413857, "freeCashflow": 80121004032, "fromCurrency": null, "fullTimeEmployees": 100000, "fundFamily": null, "fundInceptionDate": null, "gmtOffSetMilliseconds": "-14400000", "grossMargins": 0.39881, "grossProfits": 104956000000, "heldPercentInsiders": 0.00066, "heldPercentInstitutions": 0.58561003, "impliedSharesOutstanding": null, "industry": "Consumer Electronics", "isEsgPopulated": false, "lastCapGain": null, "lastDividendDate": 1620345600, "lastDividendValue": 0.22, "lastFiscalYearEnd": 1601078400, "lastMarket": null, "lastSplitDate": 1598832000, "lastSplitFactor": "4:1", "legalType": null, "logo_url": "https://logo.clearbit.com/apple.com", "longBusinessSummary": "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. It also sells various related services. The company offers iPhone, a line of smartphones; Mac, a line of personal computers; iPad, a line of multi-purpose tablets; and wearables, home, and accessories comprising AirPods, Apple TV, Apple Watch, Beats products, HomePod, iPod touch, and other Apple-branded and third-party accessories. It also provides AppleCare support services; cloud services store services; and operates various platforms, including the App Store, that allow customers to discover and download applications and digital content, such as books, music, video, games, and podcasts. In addition, the company offers various services, such as Apple Arcade, a game subscription service; Apple Music, which offers users a curated listening experience with on-demand radio stations; Apple News+, a subscription news and magazine service; Apple TV+, which offers exclusive original content; Apple Card, a co-branded credit card; and Apple Pay, a cashless payment service, as well as licenses its intellectual property. The company serves consumers, and small and mid-sized businesses; and the education, enterprise, and government markets. It sells and delivers third-party applications for its products through the App Store. The company also sells its products through its retail and online stores, and direct sales force; and third-party cellular network carriers, wholesalers, retailers, and resellers. Apple Inc. was founded in 1977 and is headquartered in Cupertino, California.", "longName": "Apple Inc.", "market": "us_market", "marketCap": 2442897653760, "maxAge": 1, "maxSupply": null, "messageBoardId": "finmb_24937", "morningStarOverallRating": null, "morningStarRiskRating": null, "mostRecentQuarter": 1616803200, "navPrice": null, "netIncomeToCommon": 76311003136, "nextFiscalYearEnd": 1664150400, "numberOfAnalystOpinions": 39, "open": 148.46, "openInterest": null, "operatingCashflow": 99590995968, "operatingMargins": 0.27321, "payoutRatio": 0.1834, "pegRatio": 1.53, "phone": "408-996-1010", "previousClose": 148.48, "priceHint": 2, "priceToBook": 35.30873, "priceToSalesTrailing12Months": 7.50723, "profitMargins": 0.23451, "quickRatio": 0.967, "quoteType": "EQUITY", "recommendationKey": "buy", "recommendationMean": 2, "regularMarketDayHigh": 149.76, "regularMarketDayLow": 145.88, "regularMarketOpen": 148.46, "regularMarketPreviousClose": 148.48, "regularMarketPrice": 146.39, "regularMarketVolume": 93251426, "returnOnAssets": 0.169, "returnOnEquity": 1.034, "revenueGrowth": 0.536, "revenuePerShare": 19.143, "revenueQuarterlyGrowth": null, "sector": "Technology", "sharesOutstanding": 16687599616, "sharesPercentSharesOut": 0.0054, "sharesShort": 90213531, "sharesShortPreviousMonthDate": 1622160000, "sharesShortPriorMonth": 123121920, "shortName": "Apple Inc.", "shortPercentOfFloat": 0.0054, "shortRatio": 1.24, "startDate": null, "state": "CA", "strikePrice": null, "symbol": "AAPL", "targetHighPrice": 185, "targetLowPrice": 125, "targetMeanPrice": 159.34, "targetMedianPrice": 160, "threeYearAverageReturn": null, "toCurrency": null, "totalAssets": null, "totalCash": 69833998336, "totalCashPerShare": 4.185, "totalDebt": 134744997888, "totalRevenue": 325405999104, "tradeable": false, "trailingAnnualDividendRate": 0.82, "trailingAnnualDividendYield": 0.0055226292, "trailingEps": 4.449, "trailingPE": 32.904022, "twoHundredDayAverage": 130.2331, "volume": 93251426, "volume24Hr": null, "volumeAllCurrencies": null, "website": "http://www.apple.com", "yield": null, "ytdReturn": null, "zip": "95014" }, "market_data": "{\"Open\":{\"2021-06-17T00:00:00.000Z\":129.8000030518,\"2021-06-18T00:00:00.000Z\":130.7100067139,\"2021-06-21T00:00:00.000Z\":130.3000030518,\"2021-06-22T00:00:00.000Z\":132.1300048828,\"2021-06-23T00:00:00.000Z\":133.7700042725,\"2021-06-24T00:00:00.000Z\":134.4499969482,\"2021-06-25T00:00:00.000Z\":133.4600067139,\"2021-06-28T00:00:00.000Z\":133.4100036621,\"2021-06-29T00:00:00.000Z\":134.8000030518,\"2021-06-30T00:00:00.000Z\":136.1699981689,\"2021-07-01T00:00:00.000Z\":136.6000061035,\"2021-07-02T00:00:00.000Z\":137.8999938965,\"2021-07-06T00:00:00.000Z\":140.0700073242,\"2021-07-07T00:00:00.000Z\":143.5399932861,\"2021-07-08T00:00:00.000Z\":141.5800018311,\"2021-07-09T00:00:00.000Z\":142.75,\"2021-07-12T00:00:00.000Z\":146.2100067139,\"2021-07-13T00:00:00.000Z\":144.0299987793,\"2021-07-14T00:00:00.000Z\":148.1000061035,\"2021-07-15T00:00:00.000Z\":149.2400054932,\"2021-07-16T00:00:00.000Z\":148.4600067139},\"High\":{\"2021-06-17T00:00:00.000Z\":132.5500030518,\"2021-06-18T00:00:00.000Z\":131.5099945068,\"2021-06-21T00:00:00.000Z\":132.4100036621,\"2021-06-22T00:00:00.000Z\":134.0800018311,\"2021-06-23T00:00:00.000Z\":134.3200073242,\"2021-06-24T00:00:00.000Z\":134.6399993896,\"2021-06-25T00:00:00.000Z\":133.8899993896,\"2021-06-28T00:00:00.000Z\":135.25,\"2021-06-29T00:00:00.000Z\":136.4900054932,\"2021-06-30T00:00:00.000Z\":137.4100036621,\"2021-07-01T00:00:00.000Z\":137.3300018311,\"2021-07-02T00:00:00.000Z\":140.0,\"2021-07-06T00:00:00.000Z\":143.1499938965,\"2021-07-07T00:00:00.000Z\":144.8899993896,\"2021-07-08T00:00:00.000Z\":144.0599975586,\"2021-07-09T00:00:00.000Z\":145.6499938965,\"2021-07-12T00:00:00.000Z\":146.3200073242,\"2021-07-13T00:00:00.000Z\":147.4600067139,\"2021-07-14T00:00:00.000Z\":149.5700073242,\"2021-07-15T00:00:00.000Z\":150.0,\"2021-07-16T00:00:00.000Z\":149.7599945068},\"Low\":{\"2021-06-17T00:00:00.000Z\":129.6499938965,\"2021-06-18T00:00:00.000Z\":130.2400054932,\"2021-06-21T00:00:00.000Z\":129.2100067139,\"2021-06-22T00:00:00.000Z\":131.6199951172,\"2021-06-23T00:00:00.000Z\":133.2299957275,\"2021-06-24T00:00:00.000Z\":132.9299926758,\"2021-06-25T00:00:00.000Z\":132.8099975586,\"2021-06-28T00:00:00.000Z\":133.3500061035,\"2021-06-29T00:00:00.000Z\":134.3500061035,\"2021-06-30T00:00:00.000Z\":135.8699951172,\"2021-07-01T00:00:00.000Z\":135.7599945068,\"2021-07-02T00:00:00.000Z\":137.75,\"2021-07-06T00:00:00.000Z\":140.0700073242,\"2021-07-07T00:00:00.000Z\":142.6600036621,\"2021-07-08T00:00:00.000Z\":140.6699981689,\"2021-07-09T00:00:00.000Z\":142.6499938965,\"2021-07-12T00:00:00.000Z\":144.0,\"2021-07-13T00:00:00.000Z\":143.6300048828,\"2021-07-14T00:00:00.000Z\":147.6799926758,\"2021-07-15T00:00:00.000Z\":147.0899963379,\"2021-07-16T00:00:00.000Z\":145.8800048828},\"Close\":{\"2021-06-17T00:00:00.000Z\":131.7899932861,\"2021-06-18T00:00:00.000Z\":130.4600067139,\"2021-06-21T00:00:00.000Z\":132.3000030518,\"2021-06-22T00:00:00.000Z\":133.9799957275,\"2021-06-23T00:00:00.000Z\":133.6999969482,\"2021-06-24T00:00:00.000Z\":133.4100036621,\"2021-06-25T00:00:00.000Z\":133.1100006104,\"2021-06-28T00:00:00.000Z\":134.7799987793,\"2021-06-29T00:00:00.000Z\":136.3300018311,\"2021-06-30T00:00:00.000Z\":136.9600067139,\"2021-07-01T00:00:00.000Z\":137.2700042725,\"2021-07-02T00:00:00.000Z\":139.9600067139,\"2021-07-06T00:00:00.000Z\":142.0200042725,\"2021-07-07T00:00:00.000Z\":144.5700073242,\"2021-07-08T00:00:00.000Z\":143.2400054932,\"2021-07-09T00:00:00.000Z\":145.1100006104,\"2021-07-12T00:00:00.000Z\":144.5,\"2021-07-13T00:00:00.000Z\":145.6399993896,\"2021-07-14T00:00:00.000Z\":149.1499938965,\"2021-07-15T00:00:00.000Z\":148.4799957275,\"2021-07-16T00:00:00.000Z\":146.3899993896},\"Volume\":{\"2021-06-17T00:00:00.000Z\":96721700,\"2021-06-18T00:00:00.000Z\":108953300,\"2021-06-21T00:00:00.000Z\":79663300,\"2021-06-22T00:00:00.000Z\":74783600,\"2021-06-23T00:00:00.000Z\":60214200,\"2021-06-24T00:00:00.000Z\":68711000,\"2021-06-25T00:00:00.000Z\":70783700,\"2021-06-28T00:00:00.000Z\":62111300,\"2021-06-29T00:00:00.000Z\":64556100,\"2021-06-30T00:00:00.000Z\":63261400,\"2021-07-01T00:00:00.000Z\":52485800,\"2021-07-02T00:00:00.000Z\":78852600,\"2021-07-06T00:00:00.000Z\":108181800,\"2021-07-07T00:00:00.000Z\":104911600,\"2021-07-08T00:00:00.000Z\":105575500,\"2021-07-09T00:00:00.000Z\":99788400,\"2021-07-12T00:00:00.000Z\":76299700,\"2021-07-13T00:00:00.000Z\":100827100,\"2021-07-14T00:00:00.000Z\":127050800,\"2021-07-15T00:00:00.000Z\":106820300,\"2021-07-16T00:00:00.000Z\":93100300},\"Dividends\":{\"2021-06-17T00:00:00.000Z\":0,\"2021-06-18T00:00:00.000Z\":0,\"2021-06-21T00:00:00.000Z\":0,\"2021-06-22T00:00:00.000Z\":0,\"2021-06-23T00:00:00.000Z\":0,\"2021-06-24T00:00:00.000Z\":0,\"2021-06-25T00:00:00.000Z\":0,\"2021-06-28T00:00:00.000Z\":0,\"2021-06-29T00:00:00.000Z\":0,\"2021-06-30T00:00:00.000Z\":0,\"2021-07-01T00:00:00.000Z\":0,\"2021-07-02T00:00:00.000Z\":0,\"2021-07-06T00:00:00.000Z\":0,\"2021-07-07T00:00:00.000Z\":0,\"2021-07-08T00:00:00.000Z\":0,\"2021-07-09T00:00:00.000Z\":0,\"2021-07-12T00:00:00.000Z\":0,\"2021-07-13T00:00:00.000Z\":0,\"2021-07-14T00:00:00.000Z\":0,\"2021-07-15T00:00:00.000Z\":0,\"2021-07-16T00:00:00.000Z\":0},\"Stock Splits\":{\"2021-06-17T00:00:00.000Z\":0,\"2021-06-18T00:00:00.000Z\":0,\"2021-06-21T00:00:00.000Z\":0,\"2021-06-22T00:00:00.000Z\":0,\"2021-06-23T00:00:00.000Z\":0,\"2021-06-24T00:00:00.000Z\":0,\"2021-06-25T00:00:00.000Z\":0,\"2021-06-28T00:00:00.000Z\":0,\"2021-06-29T00:00:00.000Z\":0,\"2021-06-30T00:00:00.000Z\":0,\"2021-07-01T00:00:00.000Z\":0,\"2021-07-02T00:00:00.000Z\":0,\"2021-07-06T00:00:00.000Z\":0,\"2021-07-07T00:00:00.000Z\":0,\"2021-07-08T00:00:00.000Z\":0,\"2021-07-09T00:00:00.000Z\":0,\"2021-07-12T00:00:00.000Z\":0,\"2021-07-13T00:00:00.000Z\":0,\"2021-07-14T00:00:00.000Z\":0,\"2021-07-15T00:00:00.000Z\":0,\"2021-07-16T00:00:00.000Z\":0}}", "ratings": [ { "_id": "fcaa74ccc4f8b70ab02510b7d1cb24ed", "_rev": "1-a3e83b79899fd5852d34a45d42e474c1", "company_name": "Apple Inc.", "disclaimer": "ESG Enterprise's ESG Rating data (\"Scores\") are all based on public information and provided for informational purposes only. No member of ESG Enterprise or related parties make any prediction, warranty or representation whatsoever, expressly or impliedly, either as to the suitability of our Scores for any particular purposes or the validity of any derivative analysis or conclusion based on the Scores.", "environment_grade": "B", "environment_level": "Medium", "environment_score": 210, "esg_id": 502, "exchange_symbol": "NASDAQ", "governance_grade": "B", "governance_level": "Medium", "governance_score": 205, "last_processing_date": "19-06-2021", "social_grade": "B", "social_level": "Medium", "social_score": 205, "stock_symbol": "AAPL", "total": 620, "total_grade": "B", "total_level": "Medium" } ] }
+
+definitions:
+  healthResponse:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+
+  ESGRatings:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      _rev:
+        type: "string"
+      company_name:
+        type: "string"
+      disclaimer:
+        type: "string"
+      environment_grade:
+        type: "string"
+      environment_level:
+        type: "string"
+      environment_score:
+        type: "integer"
+      esg_id:
+        type: "integer"
+      exchange_symbol:
+        type: "string"
+      governance_grade:
+        type: "string"
+      governance_level:
+        type: "string"
+      governance_score:
+        type: "integer"
+      last_processing_date:
+        type: "string"
+      social_grade:
+        type: "string"
+      social_level:
+        type: "string"
+      social_score:
+        type: "integer"
+      stock_symbol:
+        type: "string"
+      total:
+        type: "integer"
+      total_grade:
+        type: "string"
+      total_level:
+        type: "string"
+
+  ESGIndicators:
+    type: "object"
+    properties:
+      _id: 
+        type: "string"
+      _rev:
+        type: "string"
+      company_name:
+        type: "string"
+      disclaimer:
+        type: "string"
+      esg_id:
+        type: "integer"
+      exchange_symbol:
+        type: "string"
+      goals: 
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            sasb:
+              type: "string"
+            score:
+              type: "integer" 
+            sdg:
+              type: "string"
+            timestamp:
+              type: "string"
+      stock_symbol:
+        type: "string"
+
+  catchAll:
+    type: "object"
+    properties:
+      inidicators:
+        type: "object"
+        properties:
+          _id: 
+            type: "string"
+          _rev:
+            type: "string"
+          company_name:
+            type: "string"
+          disclaimer:
+            type: "string"
+          esg_id:
+            type: "integer"
+          exchange_symbol:
+            type: "string"
+          goals: 
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                sasb:
+                  type: "string"
+                score:
+                  type: "integer" 
+                sdg:
+                  type: "string"
+                timestamp:
+                  type: "string"
+          stock_symbol:
+            type: "string"
+      ratings:
+        type: "object"
+        properties:
+          _id:
+            type: "string"
+          _rev:
+            type: "string"
+          company_name:
+            type: "string"
+          disclaimer:
+            type: "string"
+          environment_grade:
+            type: "string"
+          environment_level:
+            type: "string"
+          environment_score:
+            type: "integer"
+          esg_id:
+            type: "integer"
+          exchange_symbol:
+            type: "string"
+          governance_grade:
+            type: "string"
+          governance_level:
+            type: "string"
+          governance_score:
+            type: "integer"
+          last_processing_date:
+            type: "string"
+          social_grade:
+            type: "string"
+          social_level:
+            type: "string"
+          social_score:
+            type: "integer"
+          stock_symbol:
+            type: "string"
+          total:
+            type: "integer"
+          total_grade:
+            type: "string"
+          total_level:
+            type: "string"
+      info:
+        type: "object"
+      market_data:
+        type: "object"
