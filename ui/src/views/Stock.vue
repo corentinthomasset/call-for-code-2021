@@ -19,24 +19,19 @@
     </div>
     <div class="section stock-market-trend">
       <h2>Market trend</h2>
-      <h3>
-        Swipe left to show greener stocks<br />
-        with similar market trends
-      </h3>
       <hooper
         :centerMode="true"
         :itemsToShow="1.2"
         style="height: 350px"
         @slide="slideHandler"
       >
-        <slide v-for="stock in stocks" :key="stock.info.symbol">
+        <slide v-for="stock in stocks" :key="stock.details[0].info.symbol">
           <StockCard :stock="stock" />
         </slide>
         <pagination slot="hooper-addons"></pagination>
       </hooper>
     </div>
     <div class="section stock-info">
-      <h2>About</h2>
       <ul>
         <li><b>Name</b> {{ info.longName }}</li>
         <li><b>Ticker</b> {{ info.symbol }}</li>
@@ -44,16 +39,16 @@
         <li><b>Industry</b> {{ info.industry }}</li>
         <li><b>Country</b> {{ info.country }}</li>
       </ul>
-      <p>
-        <b>Summary</b><br />
-        {{ summary }}<template v-if="!showFullSummary">...</template>
-      </p>
+    </div>
+    <div class="section stock-summary">
+      <h2>Summary</h2>
+      <p>{{ summary }}<template v-if="!showFullSummary">...</template></p>
       <a
         href="#"
         @click.prevent="showFullSummary = true"
         v-if="!showFullSummary"
         class="button"
-        >Show more</a
+        >Read more</a
       >
     </div>
     <div class="section stock-esg-rating">
@@ -85,6 +80,7 @@
       ></apexchart>
     </div>
   </div>
+  <Spinner v-else/>
 </template>
 
 <script>
@@ -93,10 +89,12 @@ import "hooper/dist/hooper.css";
 import ICountUp from "vue-countup-v2";
 import Rating from "@/components/Rating";
 import StockCard from "@/components/StockCard";
+import Spinner from "@/components/Spinner";
 export default {
   name: "Stock",
   props: ["ticker"],
   components: {
+    Spinner,
     Rating,
     StockCard,
     Hooper,
@@ -134,7 +132,7 @@ export default {
   },
   computed: {
     info() {
-      return this.stocks[this.index]?.info;
+      return this.stocks[this.index]?.details[0].info;
     },
     ratings() {
       return this.stocks[this.index]?.ratings[0];
@@ -147,14 +145,31 @@ export default {
       }
     },
     series() {
+      let data = [];
+      data[0] = this.ratings.environment_score;
+      data[1] = Math.floor(
+        Math.sqrt(
+          Math.pow(this.ratings.environment_score / 2, 2) +
+            Math.pow(this.ratings.governance_score / 2, 2)
+        )
+      );
+      data[2] = this.ratings.governance_score;
+      data[3] = Math.floor(
+        Math.sqrt(
+          Math.pow(this.ratings.social_score / 2, 2) +
+            Math.pow(this.ratings.governance_score / 2, 2)
+        )
+      );
+      data[4] = this.ratings.social_score;
+      data[5] = Math.floor(
+        Math.sqrt(
+          Math.pow(this.ratings.environment_score / 2, 2) +
+            Math.pow(this.ratings.social_score / 2, 2)
+        )
+      );
       return [
         {
-          name: "Microsoft Corp.",
-          data: [250, 100, 235, 100, 195, 100],
-        },
-        {
-          name: "Apple Inc",
-          data: [210, 100, 205, 100, 205, 100],
+          data: data,
         },
       ];
     },
@@ -166,17 +181,21 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      let tickers = ["aapl", "msft", "ibm", "ms"];
-      tickers.forEach((ticker) => {
-        this.$http
-          .get(`http://169.57.99.144:31544/catchall/${ticker}`)
-          .then((response) => {
-            this.stocks.push(response.data);
-          })
-          .catch((err) => {
-            console.log(err);
+      this.$http
+        .get(`http://169.57.99.144:31544/catchall/${this.ticker}`)
+        .then((response) => {
+          this.stocks.push(response.data);
+          this.stocks[0].correlations.forEach((correlated) => {
+            if (correlated.ratings[0].total >= this.ratings.total) {
+              if (this.stocks.length < 5) {
+                this.stocks.push(correlated);
+              }
+            }
           });
-      });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
   },
 };
@@ -217,15 +236,6 @@ export default {
   list-style: none;
   opacity: 0.5;
   text-align: left;
-}
-
-.stock-info p {
-  text-align: justify;
-  padding: 0 20px;
-  opacity: 0.5;
-  margin: 0;
-  box-sizing: border-box;
-  width: 100%;
 }
 
 .ratings-wrapper {

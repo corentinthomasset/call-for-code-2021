@@ -28,6 +28,8 @@ body {
   text-align: center;
   width: 100vw;
   overflow: hidden;
+  max-width: 500px;
+  margin: auto;
 }
 
 h1,
@@ -48,8 +50,17 @@ h3 {
   font-weight: 300;
 }
 
+p {
+  text-align: justify;
+  padding: 0 20px;
+  opacity: 0.5;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+
 .section {
-  margin: 50px 0;
+  margin: 35px 0;
 }
 
 .button {
