@@ -1,15 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Stock from "../views/Stock";
-import Home from "@/views/Home";
+import Portfolio from "@/views/Portfolio";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "Portfolio",
+    component: Portfolio,
   },
   {
     path: "/:ticker",

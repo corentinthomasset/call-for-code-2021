@@ -1,22 +1,46 @@
 <template>
-  <div id="stock" class="view" v-if="info && info.shortName">
-    <div class="section stock-header">
+  <div
+    id="stock"
+    class="view"
+    v-if="info && info.shortName"
+    @click.capture="showContextual = false"
+  >
+    <ul class="stock-nav">
+      <li>
+        <router-link to="/"><unicon name="times" fill="#4951fd" /></router-link>
+      </li>
+      <li @click="showContextual = true">
+        <unicon name="ellipsis-v" fill="#4951fd" />
+      </li>
+    </ul>
+    <div class="contextual-menu" v-if="showContextual">
+      <ul class="action-list">
+        <li v-if="showAdd" @click="addToPortfolio">
+          Add {{ info.symbol }} to portfolio
+          <unicon name="plus" fill="#4951fd" />
+        </li>
+        <li v-if="showReplace" @click="replaceInPortfolio">
+          <span
+            >Replace
+            <span style="text-transform: uppercase">{{ ticker }}</span> with
+            {{ info.symbol }}</span
+          >
+          <unicon name="sync" fill="#4951fd" />
+        </li>
+        <li v-if="showDelete" @click="deleteFromPortfolio">
+          Delete {{ info.symbol }} from portfolio
+          <unicon name="trash" fill="#4951fd" />
+        </li>
+      </ul>
+    </div>
+    <div class="section header">
       <h1>
-        {{ info.shortName.slice(0, 20)
-        }}<template v-if="info.shortName.length > 20">...</template>
+        {{ info.shortName.slice(0, 15)
+        }}<template v-if="info.shortName.length > 15">...</template>
       </h1>
       <h3>{{ info.industry }}</h3>
     </div>
-    <div class="section stock-environmental-rating">
-      <div class="environmental-score">
-        <h1>
-          <ICountUp :delai="1000" :endVal="ratings.environment_score" />
-        </h1>
-        <h3>/500</h3>
-      </div>
-      <Rating :rating="ratings.environment_score" :max="500" />
-      <h3>environmental grade</h3>
-    </div>
+    <EnvironmentalScore :score="ratings.environment_score" />
     <div class="section stock-market-trend">
       <h2>Market trend</h2>
       <hooper
@@ -51,82 +75,42 @@
         >Read more</a
       >
     </div>
-    <div class="section stock-esg-rating">
-      <h2>ESG Ratings</h2>
-      <h3>Environmental, Social & Governance practices</h3>
-      <div class="ratings-wrapper flex-wrapper">
-        <div class="esg-ratings">
-          <h1>{{ ratings.total_grade }}</h1>
-          <h3>ESG Rating</h3>
-        </div>
-        <ul class="esg-details">
-          <li>
-            Environmental <b>{{ ratings.environment_grade }}</b>
-          </li>
-          <li>
-            Social <b>{{ ratings.social_grade }}</b>
-          </li>
-          <li>
-            Governance <b>{{ ratings.governance_grade }}</b>
-          </li>
-        </ul>
-      </div>
-      <apexchart
-        type="radar"
-        height="300"
-        :options="chartOptions"
-        :series="series"
-        class="radar"
-      ></apexchart>
-    </div>
+    <ESGRatings :ratings="ratings" />
   </div>
-  <Spinner v-else/>
+  <Spinner v-else />
 </template>
 
 <script>
 import { Hooper, Slide, Pagination } from "hooper";
 import "hooper/dist/hooper.css";
-import ICountUp from "vue-countup-v2";
-import Rating from "@/components/Rating";
 import StockCard from "@/components/StockCard";
 import Spinner from "@/components/Spinner";
+import ESGRatings from "@/components/ESGRatings";
+import EnvironmentalScore from "@/components/EnvironmentalScore";
 export default {
   name: "Stock",
   props: ["ticker"],
   components: {
+    EnvironmentalScore,
+    ESGRatings,
     Spinner,
-    Rating,
     StockCard,
     Hooper,
     Pagination,
     Slide,
-    ICountUp,
   },
   data() {
     return {
       index: 0,
       stocks: [],
       showFullSummary: false,
-      chartOptions: {
-        chart: {
-          type: "radar",
-          toolbar: {
-            show: false,
-          },
-        },
-        colors: ["#2CC705", "#4951fd"],
-        stroke: {
-          width: 3,
-        },
-        fill: {
-          opacity: 0.1,
-        },
-        markers: {
-          size: 0,
-        },
-        xaxis: {
-          categories: ["Environmental", "", "Governance", "", "Social", ""],
-        },
+      showContextual: false,
+      get portfolio() {
+        return JSON.parse(localStorage.getItem("stockList")) || {};
+      },
+      // eslint-disable-next-line
+      set portfolio(value) {
+        localStorage.setItem("stockList", value);
       },
     };
   },
@@ -144,45 +128,64 @@ export default {
         return this.info.longBusinessSummary.slice(0, 200);
       }
     },
-    series() {
-      let data = [];
-      data[0] = this.ratings.environment_score;
-      data[1] = Math.floor(
-        Math.sqrt(
-          Math.pow(this.ratings.environment_score / 2, 2) +
-            Math.pow(this.ratings.governance_score / 2, 2)
-        )
+    showAdd() {
+      return !this.portfolio[this.info.symbol.toLowerCase()];
+    },
+    showReplace() {
+      return (
+        !!this.portfolio[this.ticker.toLowerCase()] &&
+        !this.portfolio[this.info.symbol.toLowerCase()]
       );
-      data[2] = this.ratings.governance_score;
-      data[3] = Math.floor(
-        Math.sqrt(
-          Math.pow(this.ratings.social_score / 2, 2) +
-            Math.pow(this.ratings.governance_score / 2, 2)
-        )
-      );
-      data[4] = this.ratings.social_score;
-      data[5] = Math.floor(
-        Math.sqrt(
-          Math.pow(this.ratings.environment_score / 2, 2) +
-            Math.pow(this.ratings.social_score / 2, 2)
-        )
-      );
-      return [
-        {
-          data: data,
-        },
-      ];
+    },
+    showDelete() {
+      return !!this.portfolio[this.info.symbol.toLowerCase()];
     },
   },
   methods: {
     slideHandler(payload) {
       this.index = payload.currentSlide;
     },
+    addToPortfolio() {
+      let current = JSON.parse(localStorage.stockList) || {};
+      current[this.info.symbol.toLowerCase()] = {
+        shortName: this.info.shortName,
+        total_grade: this.ratings.total_grade,
+        environment_grade: this.ratings.environment_grade,
+        social_grade: this.ratings.social_grade,
+        governance_grade: this.ratings.governance_grade,
+        total_score: this.ratings.total_score,
+        environment_score: this.ratings.environment_score,
+        social_score: this.ratings.social_score,
+        governance_score: this.ratings.governance_score,
+      };
+      this.portfolio = JSON.stringify(current);
+    },
+    deleteFromPortfolio() {
+      let current = JSON.parse(localStorage.stockList) || {};
+      delete current[this.info.symbol.toLowerCase()];
+      this.portfolio = JSON.stringify(current);
+    },
+    replaceInPortfolio() {
+      let current = JSON.parse(localStorage.stockList) || {};
+      current[this.info.symbol.toLowerCase()] = {
+        shortName: this.info.shortName,
+        total_grade: this.ratings.total_grade,
+        environment_grade: this.ratings.environment_grade,
+        social_grade: this.ratings.social_grade,
+        governance_grade: this.ratings.governance_grade,
+        total_score: this.ratings.total_score,
+        environment_score: this.ratings.environment_score,
+        social_score: this.ratings.social_score,
+        governance_score: this.ratings.governance_score,
+      };
+      delete current[this.ticker];
+      this.portfolio = JSON.stringify(current);
+    },
   },
   mounted() {
     this.$nextTick(() => {
       this.$http
-        .get(`http://169.57.99.144:31544/catchall/${this.ticker}`)
+        .get(`http://52.117.182.214:31587/catchall/${this.ticker}`)
         .then((response) => {
           this.stocks.push(response.data);
           this.stocks[0].correlations.forEach((correlated) => {
@@ -202,31 +205,50 @@ export default {
 </script>
 
 <style scoped>
-.stock-header {
-  margin-top: 30px;
+.contextual-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: var(--foreground);
+  border-radius: 0 0 40px 40px;
+  color: var(--purlpe);
+  box-shadow: var(--shadow);
 }
 
-.stock-header h1 {
-  font-weight: 400;
+.contextual-menu .close-contextual-menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
-.environmental-score {
+.contextual-menu .action-list {
+  list-style: none;
+  padding: 20px;
+}
+
+.contextual-menu .action-list li {
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  margin: 5px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
 }
 
-.environmental-score h1 {
-  font-size: 4em;
-  font-weight: 900;
-  line-height: 50px;
+.stock-nav {
+  padding: 20px;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
-
-.environmental-score h3 {
-  font-size: 1.1em;
-}
-
 .stock-market-trend h3 {
   font-size: 0.8em;
 }
@@ -240,23 +262,5 @@ export default {
 
 .ratings-wrapper {
   padding: 20px;
-}
-
-.esg-ratings {
-  background: var(--foreground);
-  box-shadow: var(--shadow);
-  border-radius: 15px;
-  padding: 10px;
-}
-
-.esg-details {
-  list-style: none;
-  text-align: left;
-  opacity: 0.5;
-  padding: 20px;
-}
-
-.radar {
-  margin: -50px;
 }
 </style>

@@ -88,4 +88,23 @@ p {
   justify-content: center;
   align-items: center;
 }
+
+.header {
+  margin-top: 30px;
+}
+
+.header h1 {
+  font-weight: 400;
+}
+
+@keyframes slide-in-bottom {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
 </style>
