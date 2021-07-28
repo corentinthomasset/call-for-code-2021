@@ -11,3 +11,10 @@ Technically speaking, the application has three main components:
 2. API: A RESTful API in front of the data store which exposes the data in the form of services consumable by the UI. 
 
 3. UI: A web-based and Mobile application which leverages the API to implement/deliver the idea to the end users.
+
+## Try it!
+
+| Endpoint | Address                                         |
+| -------- | ----------------------------------------------- |
+| API      | http://52.117.182.214:31587/swagger/api-docs/#/ |
+| UI       | http://corentinthomasset.me/call-for-code/#/    |
