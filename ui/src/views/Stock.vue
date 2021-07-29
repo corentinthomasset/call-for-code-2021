@@ -7,32 +7,34 @@
   >
     <ul class="stock-nav">
       <li>
-        <router-link to="/"><unicon name="times" fill="#4951fd" /></router-link>
+        <router-link to="/"><unicon name="times" fill="#4951fd"/></router-link>
       </li>
       <li @click="showContextual = true">
         <unicon name="ellipsis-v" fill="#4951fd" />
       </li>
     </ul>
-    <div class="contextual-menu" v-if="showContextual">
-      <ul class="action-list">
-        <li v-if="showAdd" @click="addToPortfolio">
-          Add {{ info.symbol }} to portfolio
-          <unicon name="plus" fill="#4951fd" />
-        </li>
-        <li v-if="showReplace" @click="replaceInPortfolio">
-          <span
-            >Replace
-            <span style="text-transform: uppercase">{{ ticker }}</span> with
-            {{ info.symbol }}</span
-          >
-          <unicon name="sync" fill="#4951fd" />
-        </li>
-        <li v-if="showDelete" @click="deleteFromPortfolio">
-          Delete {{ info.symbol }} from portfolio
-          <unicon name="trash" fill="#4951fd" />
-        </li>
-      </ul>
-    </div>
+    <transition name="drawer">
+      <div class="contextual-menu" v-if="showContextual">
+        <ul class="action-list">
+          <li v-if="showAdd" @click="addToPortfolio">
+            Add {{ info.symbol }} to portfolio
+            <unicon name="plus" fill="#4951fd" />
+          </li>
+          <li v-if="showReplace" @click="replaceInPortfolio">
+            <span
+              >Replace
+              <span style="text-transform: uppercase">{{ ticker }}</span> by
+              {{ info.symbol }}</span
+            >
+            <unicon name="sync" fill="#4951fd" />
+          </li>
+          <li v-if="showDelete" @click="deleteFromPortfolio">
+            Delete {{ info.symbol }} from portfolio
+            <unicon name="trash" fill="#4951fd" />
+          </li>
+        </ul>
+      </div>
+    </transition>
     <div class="section header">
       <h1>
         {{ info.shortName.slice(0, 15)
@@ -40,7 +42,9 @@
       </h1>
       <h3>{{ info.industry }}</h3>
     </div>
-    <EnvironmentalScore :score="ratings.environment_score" />
+    <EnvironmentalScore :score="ratings.environment_score"
+      >environmental score</EnvironmentalScore
+    >
     <div class="section stock-market-trend">
       <h2>Market trend</h2>
       <hooper
@@ -84,16 +88,16 @@
 import { Hooper, Slide, Pagination } from "hooper";
 import "hooper/dist/hooper.css";
 import StockCard from "@/components/StockCard";
-import Spinner from "@/components/Spinner";
 import ESGRatings from "@/components/ESGRatings";
 import EnvironmentalScore from "@/components/EnvironmentalScore";
+import Spinner from "@/components/Spinner";
 export default {
   name: "Stock",
   props: ["ticker"],
   components: {
+    Spinner,
     EnvironmentalScore,
     ESGRatings,
-    Spinner,
     StockCard,
     Hooper,
     Pagination,
@@ -160,11 +164,13 @@ export default {
         governance_score: this.ratings.governance_score,
       };
       this.portfolio = JSON.stringify(current);
+      this.$emit("info", `${this.info.symbol} has been added to portfolio`);
     },
     deleteFromPortfolio() {
       let current = JSON.parse(localStorage.stockList) || {};
       delete current[this.info.symbol.toLowerCase()];
       this.portfolio = JSON.stringify(current);
+      this.$emit("info", `${this.info.symbol} has been deleted from portfolio`);
     },
     replaceInPortfolio() {
       let current = JSON.parse(localStorage.stockList) || {};
@@ -181,6 +187,12 @@ export default {
       };
       delete current[this.ticker];
       this.portfolio = JSON.stringify(current);
+      this.$emit(
+        "info",
+        `${this.ticker.toUpperCase()} has been replaced by ${
+          this.info.symbol
+        } in portfolio`
+      );
     },
     getStockInfo(ticker) {
       return new Promise((resolve, reject) => {
@@ -220,12 +232,22 @@ export default {
                 console.log(err);
               });
           }
-          if (this.stocks.length < 5) {
+          if (
+            this.stocks.length < 5 &&
+            index + 1 < correlations.length &&
+            this.mounted
+          ) {
             setTimeout(() => {
-              if (index + 1 < correlations.length && this.mounted) {
-                this.getCorrelationInfo(index + 1, correlations);
-              }
-            }, 10);
+              this.getCorrelationInfo(index + 1, correlations);
+            }, 0);
+          } else {
+            this.$emit("loading", false);
+            if (this.stocks.length < 2) {
+              this.$emit(
+                "info",
+                `No suggestion for ${this.ticker.toUpperCase()}`
+              );
+            }
           }
         })
         .catch((err) => {
@@ -239,6 +261,7 @@ export default {
       this.getStockInfo(this.ticker)
         .then((stock) => {
           this.$set(this.stocks, 0, stock);
+          this.$emit("loading", true);
           this.$http
             .get(`http://52.117.182.214:31587/correlation/${this.ticker}`)
             .then((response) => {
@@ -257,44 +280,13 @@ export default {
     });
   },
   beforeDestroy() {
+    this.$emit("loading", false);
     this.mounted = false;
   },
 };
 </script>
 
 <style scoped>
-.contextual-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 999;
-  background: var(--foreground);
-  border-radius: 0 0 20px 20px;
-  color: var(--purlpe);
-  box-shadow: var(--shadow);
-  animation: slide-in-top 0.5s ease both;
-}
-
-.contextual-menu .close-contextual-menu {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
-.contextual-menu .action-list {
-  list-style: none;
-  padding: 0 10px;
-}
-
-.contextual-menu .action-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  margin: 10px;
-}
-
 .stock-nav {
   padding: 20px;
   margin: 0;
@@ -308,8 +300,22 @@ export default {
   width: 100%;
   box-sizing: border-box;
 }
+
+.header {
+  margin-top: 75px;
+  animation: slide-in-bottom 0.4s ease both;
+}
+
+.stock-market-trend {
+  animation: slide-in-bottom 0.4s ease 0.2s both;
+}
+
 .stock-market-trend h3 {
   font-size: 0.8em;
+}
+
+.stock-info {
+  animation: slide-in-bottom 0.4s ease 0.4s both;
 }
 
 .stock-info ul {

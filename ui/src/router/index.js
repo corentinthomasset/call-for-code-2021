@@ -10,12 +10,18 @@ const routes = [
     path: "/",
     name: "Portfolio",
     component: Portfolio,
+    meta: {
+      transition: "portfolio",
+    },
   },
   {
     path: "/:ticker",
     name: "Stock",
     component: Stock,
     props: true,
+    meta: {
+      transition: "stock",
+    },
   },
 ];
 

@@ -15,6 +15,7 @@ import {
   uniSync,
   uniTrash,
   uniExclamationTriangle,
+  uniInfoCircle,
 } from "vue-unicons/dist/icons";
 
 Unicon.add([
@@ -25,6 +26,7 @@ Unicon.add([
   uniSync,
   uniTrash,
   uniExclamationTriangle,
+  uniInfoCircle,
 ]);
 Vue.use(Unicon);
 

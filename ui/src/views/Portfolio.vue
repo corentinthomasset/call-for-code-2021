@@ -11,7 +11,7 @@
           v-model="ticker"
           placeholder="Stock symbol"
         />
-        <label for="search">
+        <label for="search" @click="search">
           <unicon name="search" fill="#2c3e50" />
         </label>
       </span>
@@ -137,7 +137,9 @@ export default {
       return `animation-delay: ${index * 50}ms`;
     },
     search() {
-      this.$router.push(`/${this.ticker}`);
+      if (this.ticker.length) {
+        this.$router.push(`/${this.ticker}`);
+      }
     },
     stockClickHandler(ticker) {
       this.$router.push(`/${ticker}`);
