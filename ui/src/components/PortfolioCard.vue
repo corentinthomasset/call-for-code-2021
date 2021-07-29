@@ -7,7 +7,7 @@
         }}<template v-if="shortName.length > 15">...</template>
       </h3>
     </span>
-    <Rating :rating="rating" :max="500" />
+    <Rating :rating="rating" :max="1000" />
   </li>
 </template>
 

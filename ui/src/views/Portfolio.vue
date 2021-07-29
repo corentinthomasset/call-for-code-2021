@@ -3,20 +3,21 @@
     <div class="portfolio-header section">
       <EnvironmentalScore :score="avg"> portfolio average </EnvironmentalScore>
     </div>
-    <div class="portfolio-stock-list">
-      <form @submit.prevent="search" class="section">
+    <form @submit.prevent="search" class="section">
         <span class="search-input">
           <input
-            id="search"
-            type="text"
-            v-model="ticker"
-            placeholder="Search stocks"
+              id="search"
+              type="text"
+              v-model="ticker"
+              placeholder="Search stocks"
           />
           <label for="search">
             <unicon name="search" fill="#2c3e50" />
           </label>
         </span>
-      </form>
+    </form>
+    <div class="portfolio-stock-list">
+      <h2>Portfolio</h2>
       <ul class="stock-list card-container">
         <PortfolioCard
           :ticker="symbol"
@@ -151,7 +152,7 @@ export default {
 }
 
 .portfolio-stock-list {
-  margin: 75px 0;
+  margin: 30px 0;
 }
 
 form {

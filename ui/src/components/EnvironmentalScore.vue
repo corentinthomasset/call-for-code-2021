@@ -4,9 +4,9 @@
       <h1>
         <ICountUp :delai="1000" :endVal="score" />
       </h1>
-      <h3>/500</h3>
+      <h3>/1000</h3>
     </div>
-    <Rating :rating="score" :max="500" />
+    <Rating :rating="score" :max="1000" />
     <h3><slot></slot></h3>
   </div>
 </template>

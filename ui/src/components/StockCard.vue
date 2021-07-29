@@ -2,12 +2,10 @@
   <div class="stock-card">
     <div class="stock-card-header">
       <div>
-        <h1>{{ stock.details[0].info.symbol }}</h1>
+        <h1>{{ stock.info.symbol }}</h1>
         <h3>
-          {{ stock.details[0].info.longName.slice(0, 20)
-          }}<template v-if="stock.details[0].info.longName.length > 20"
-            >...</template
-          >
+          {{ stock.info.longName.slice(0, 20)
+          }}<template v-if="stock.info.longName.length > 20">...</template>
         </h3>
       </div>
       <div>
@@ -56,12 +54,12 @@ export default {
     series() {
       let series = [];
       let trend = {};
-      trend.data = Object.values(this.stock.details[0].market_data.Close);
+      trend.data = Object.values(this.stock.market_data.Close);
       series.push(trend);
       return series;
     },
     perf() {
-      let trend = Object.values(this.stock.details[0].market_data.Close);
+      let trend = Object.values(this.stock.market_data.Close);
       return Math.floor((1 - trend[0] / trend[trend.length - 1]) * 100);
     },
   },

@@ -49,7 +49,7 @@
         style="height: 350px"
         @slide="slideHandler"
       >
-        <slide v-for="stock in stocks" :key="stock.details[0].info.symbol">
+        <slide v-for="stock in stocks" :key="stock.info.symbol">
           <StockCard :stock="stock" />
         </slide>
         <pagination slot="hooper-addons"></pagination>
@@ -105,6 +105,7 @@ export default {
       stocks: [],
       showFullSummary: false,
       showContextual: false,
+      mounted: false,
       get portfolio() {
         return JSON.parse(localStorage.getItem("stockList")) || {};
       },
@@ -116,10 +117,10 @@ export default {
   },
   computed: {
     info() {
-      return this.stocks[this.index]?.details[0].info;
+      return this.stocks[this.index]?.info;
     },
     ratings() {
-      return this.stocks[this.index]?.ratings[0];
+      return this.stocks[this.index]?.ratings;
     },
     summary() {
       if (this.showFullSummary) {
@@ -181,26 +182,73 @@ export default {
       delete current[this.ticker];
       this.portfolio = JSON.stringify(current);
     },
+    getStockInfo(ticker) {
+      return new Promise((resolve, reject) => {
+        this.$http
+          .get(`http://52.117.182.214:31587/info/${ticker}`)
+          .then((response) => {
+            let stock = response.data[0];
+            this.$http
+              .get(`http://52.117.182.214:31587/ratings/${ticker}`)
+              .then((response) => {
+                stock.ratings = response.data[0];
+                resolve(stock);
+              })
+              .catch((err) => {
+                reject(err);
+              });
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    },
+    getCorrelationInfo(index, correlations) {
+      this.getStockInfo(correlations[index])
+        .then((stock) => {
+          if (
+            stock.ratings.environment_score > this.ratings.environment_score
+          ) {
+            this.stocks.push(stock);
+          }
+          if (this.stocks.length < 5) {
+            setTimeout(()=>{
+              if(index + 1 < correlations.length && this.mounted){
+                this.getCorrelationInfo(index + 1, correlations);
+              }
+            }, 0);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   mounted() {
     this.$nextTick(() => {
-      this.$http
-        .get(`http://52.117.182.214:31587/catchall/${this.ticker}`)
-        .then((response) => {
-          this.stocks.push(response.data);
-          this.stocks[0].correlations.forEach((correlated) => {
-            if (correlated.ratings[0].total >= this.ratings.total) {
-              if (this.stocks.length < 5) {
-                this.stocks.push(correlated);
-              }
-            }
-          });
+      this.mounted = true;
+      this.getStockInfo(this.ticker)
+        .then((stock) => {
+          this.$set(this.stocks, 0, stock);
+          this.$http
+            .get(`http://52.117.182.214:31587/correlation/${this.ticker}`)
+            .then((response) => {
+              let correlations = Object.keys(response.data.correlation);
+              let i = 0;
+              this.getCorrelationInfo(i, correlations);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => {
           console.log(err);
         });
     });
   },
+  beforeDestroy() {
+    this.mounted = false;
+  }
 };
 </script>
 
@@ -212,9 +260,10 @@ export default {
   width: 100%;
   z-index: 999;
   background: var(--foreground);
-  border-radius: 0 0 40px 40px;
+  border-radius: 0 0 20px 20px;
   color: var(--purlpe);
   box-shadow: var(--shadow);
+  animation: slide-in-top .5s ease both;
 }
 
 .contextual-menu .close-contextual-menu {
@@ -225,7 +274,7 @@ export default {
 
 .contextual-menu .action-list {
   list-style: none;
-  padding: 20px;
+  padding: 0 10px;
 }
 
 .contextual-menu .action-list li {
