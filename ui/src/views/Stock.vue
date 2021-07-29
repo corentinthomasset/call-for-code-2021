@@ -204,19 +204,28 @@ export default {
       });
     },
     getCorrelationInfo(index, correlations) {
-      this.getStockInfo(correlations[index])
-        .then((stock) => {
-          if (
-            stock.ratings.environment_score > this.ratings.environment_score
-          ) {
-            this.stocks.push(stock);
+      this.$http
+        .get(`http://52.117.182.214:31587/ratings/${correlations[index]}`)
+        .then((response) => {
+          let ratings = response.data[0];
+          if (ratings.environment_score > this.ratings.environment_score) {
+            this.$http
+              .get(`http://52.117.182.214:31587/info/${correlations[index]}`)
+              .then((response) => {
+                let stock = response.data[0];
+                stock.ratings = ratings;
+                this.stocks.push(stock);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           }
           if (this.stocks.length < 5) {
             setTimeout(() => {
               if (index + 1 < correlations.length && this.mounted) {
                 this.getCorrelationInfo(index + 1, correlations);
               }
-            }, 0);
+            }, 10);
           }
         })
         .catch((err) => {

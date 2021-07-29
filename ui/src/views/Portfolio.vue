@@ -9,7 +9,7 @@
           id="search"
           type="text"
           v-model="ticker"
-          placeholder="Search stocks"
+          placeholder="Stock symbol"
         />
         <label for="search">
           <unicon name="search" fill="#2c3e50" />
