@@ -212,8 +212,8 @@ export default {
             this.stocks.push(stock);
           }
           if (this.stocks.length < 5) {
-            setTimeout(()=>{
-              if(index + 1 < correlations.length && this.mounted){
+            setTimeout(() => {
+              if (index + 1 < correlations.length && this.mounted) {
                 this.getCorrelationInfo(index + 1, correlations);
               }
             }, 0);
@@ -241,14 +241,15 @@ export default {
               console.log(err);
             });
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          this.$emit("error", `No data found for ${this.ticker}`);
+          this.$router.push("/");
         });
     });
   },
   beforeDestroy() {
     this.mounted = false;
-  }
+  },
 };
 </script>
 
@@ -263,7 +264,7 @@ export default {
   border-radius: 0 0 20px 20px;
   color: var(--purlpe);
   box-shadow: var(--shadow);
-  animation: slide-in-top .5s ease both;
+  animation: slide-in-top 0.5s ease both;
 }
 
 .contextual-menu .close-contextual-menu {

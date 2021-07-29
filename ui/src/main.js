@@ -14,9 +14,18 @@ import {
   uniPlus,
   uniSync,
   uniTrash,
+  uniExclamationTriangle,
 } from "vue-unicons/dist/icons";
 
-Unicon.add([uniSearch, uniEllipsisV, uniTimes, uniPlus, uniSync, uniTrash]);
+Unicon.add([
+  uniSearch,
+  uniEllipsisV,
+  uniTimes,
+  uniPlus,
+  uniSync,
+  uniTrash,
+  uniExclamationTriangle,
+]);
 Vue.use(Unicon);
 
 Vue.use(VueApexCharts);

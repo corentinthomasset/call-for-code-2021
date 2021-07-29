@@ -1,8 +1,36 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view @error="toggleError" />
+    <div class="error-toast" v-if="showError">
+      <ul class="error-list">
+        <li @click="showError = false">
+          {{ errorMsg }}
+          <unicon name="exclamation-triangle" fill="#fff" />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      showError: false,
+      errorMsg: "Error",
+    };
+  },
+  methods: {
+    toggleError(msg) {
+      this.errorMsg = msg;
+      this.showError = true;
+      setTimeout(() => {
+        this.showError = false;
+      }, 5000);
+    },
+  },
+};
+</script>
 
 <style>
 :root {
@@ -12,6 +40,7 @@
   --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   --purlpe: #4951fd;
   --green: #2cc705;
+  --error: #ff0033;
 }
 
 body {
@@ -97,12 +126,37 @@ p {
   font-weight: 400;
 }
 
+.error-toast {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background: var(--error);
+  border-radius: 20px 20px 0 0;
+  color: var(--foreground);
+  box-shadow: var(--shadow);
+  animation: slide-in-bottom 0.5s ease both;
+}
+
+.error-toast .error-list {
+  list-style: none;
+  padding: 0 10px;
+}
+
+.error-toast .error-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+}
+
 /* Change the white to any color */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active
-{
+input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 

@@ -4,17 +4,17 @@
       <EnvironmentalScore :score="avg"> portfolio average </EnvironmentalScore>
     </div>
     <form @submit.prevent="search" class="section">
-        <span class="search-input">
-          <input
-              id="search"
-              type="text"
-              v-model="ticker"
-              placeholder="Search stocks"
-          />
-          <label for="search">
-            <unicon name="search" fill="#2c3e50" />
-          </label>
-        </span>
+      <span class="search-input">
+        <input
+          id="search"
+          type="text"
+          v-model="ticker"
+          placeholder="Search stocks"
+        />
+        <label for="search">
+          <unicon name="search" fill="#2c3e50" />
+        </label>
+      </span>
     </form>
     <div class="portfolio-stock-list">
       <h2>Portfolio</h2>
