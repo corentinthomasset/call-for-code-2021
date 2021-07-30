@@ -6,11 +6,29 @@ import store from "./store";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import VueApexCharts from "vue-apexcharts";
-import Unicon from 'vue-unicons/dist/vue-unicons-vue2.umd'
-import { uniSearch } from 'vue-unicons/dist/icons'
+import Unicon from "vue-unicons/dist/vue-unicons-vue2.umd";
+import {
+  uniSearch,
+  uniEllipsisV,
+  uniTimes,
+  uniPlus,
+  uniSync,
+  uniTrash,
+  uniExclamationTriangle,
+  uniInfoCircle,
+} from "vue-unicons/dist/icons";
 
-Unicon.add([uniSearch])
-Vue.use(Unicon)
+Unicon.add([
+  uniSearch,
+  uniEllipsisV,
+  uniTimes,
+  uniPlus,
+  uniSync,
+  uniTrash,
+  uniExclamationTriangle,
+  uniInfoCircle,
+]);
+Vue.use(Unicon);
 
 Vue.use(VueApexCharts);
 Vue.use(VueAxios, axios);

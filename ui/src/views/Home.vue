@@ -4,13 +4,20 @@
       <img src="@/assets/logo.png" alt="logo" class="logo" />
       <form @submit.prevent="search">
         <span class="search-input">
-          <input id="search" type="text" v-model="ticker"/>
+          <input id="search" type="text" v-model="ticker" />
           <label for="search">
             <unicon name="search" fill="#2c3e50" />
           </label>
         </span>
       </form>
-      <p><b>Invest in a brigther future, back companies that do the most to preserve our planet.</b> Search for stocks by symbol. Get suggestions with better environmental ratings and similar market trends.</p>
+      <p>
+        <b
+          >Invest in a brigther future, back companies that do the most to
+          preserve our planet.</b
+        >
+        Search for stocks by symbol. Get suggestions with better environmental
+        ratings and similar market trends.
+      </p>
     </div>
   </div>
 </template>
@@ -25,7 +32,7 @@ export default {
   },
   methods: {
     search() {
-      this.$router.push(`/${this.ticker}`)
+      this.$router.push(`/${this.ticker}`);
     },
   },
 };
@@ -46,11 +53,11 @@ export default {
   margin: auto;
 }
 
-form{
+form {
   margin: 50px 0;
 }
 
-.search-input{
+.search-input {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,7 +65,7 @@ form{
   text-align: center;
 }
 
-input[type=text]{
+input[type="text"] {
   border: none;
   outline: none;
   padding: 15px 20px;
@@ -69,7 +76,7 @@ input[type=text]{
   box-sizing: border-box;
 }
 
-label{
+label {
   padding: 15px 20px;
   border-radius: 0 20px 20px 0;
   box-shadow: var(--shadow);

@@ -44,4 +44,15 @@ export default {
 .leaf {
   height: 20px;
 }
+
+.portfolio-card .rating {
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  width: 125px;
+}
+
+.portfolio-card .rating .leaf {
+  height: 17px;
+}
 </style>
