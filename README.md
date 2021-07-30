@@ -64,6 +64,10 @@ Technically speaking, the application has three main components:
 
 ## Roadmap
 
+Check the below diagram:
+
+![GreenUp Roadmap](./docs/roadmap.png "GreenUp Roadmap")
+
 ## Getting started
 
 ## Live demo
