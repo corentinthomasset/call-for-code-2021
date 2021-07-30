@@ -48,6 +48,10 @@
 
 ## Architecture
 
+Check the below diagram:
+
+![GreenUp Architecture](./docs/greenup_arch.png "GreenUp Architecture")
+
 ## Details
 
 Technically speaking, the application has three main components:
