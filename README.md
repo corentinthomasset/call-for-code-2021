@@ -35,13 +35,13 @@
 
 ## The problem
 
-Investment triggers growth both for the investee and the investor; now, what if we could direct the investments towards sustainable companies? Quick answer is that a *third entity* would be implicitly added to the investee-investor equation that nowadays requires the highest level of attention. Environement, planet, earth or simply the *third entity* would benefit the most from investing in sustainable companies.
+Investment triggers growth both for the investee and the investor; now, what if we could direct the investments towards sustainable companies? Quick answer is that a *third entity* would be implicitly added to the investee-investor equation that nowadays requires the highest level of attention. Environment, planet, earth, or simply the *third entity* would benefit the most from investing in sustainable companies.
 
 ## How can technology help?
 
 Technology assists in 3 main areas:
 
-1. _Data_: This is the building block. We need to extract, normalize and process data that supports investments decisions.
+1. _Data_: This is the building block. We need to extract, normalize, and process data that supports sustainable investments decisions.
 
 2. _Platform_: Tools and infrastructure that support the service. 
 
@@ -49,7 +49,12 @@ Technology assists in 3 main areas:
 
 ## The idea
 
-*greenup* is an application that allows investors to arrange/re-arrange their investment portfolio according to companies' ESG (Enviromental, Social and Governance) performance. This is acheived by suggesting stocks that have higher ESG ratings and, in the mean time, perform similar to what the user already has in his/her investment portfolio.
+*Sustainable investment at your fingertips*
+
+We believe that a global adoption of sustainable investing could have a significant impact by empowering the companies doing the most for the planet. We have designed *greenup* to help raise sustainable investing awareness.
+
+*greenup* is an application that allows investors to arrange/re-arrange their investment portfolio according to companies' environmental score and ESG (Environmental, Social and Governance) performance. This is achieved by suggesting stocks that have higher environmental score and, in the meantime, perform similarly to what users already have in their investment portfolio. Users can then save the best suggestions and build a buy list of environmentally friendly stocks to green up their portfolio.
+
 
 ## Demo video
 
