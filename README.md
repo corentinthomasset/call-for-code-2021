@@ -1,14 +1,14 @@
-# GreenUp
+# greenup
 
-*GreenUp* your investments, save the *planet*
+*greenup* your portfolio, save the *planet*
 
 ## Contents
 
-- [GreenUp](#greenup)
+- [greenup](#greenup)
   
   - [Contents](#contents)
   
-  - [The problem](#the-problem)
+  - [What's the problem](#the-problem)
   
   - [How can technology help?](#how-can-technology-help)
   
@@ -54,7 +54,7 @@ Technology assists in 3 main areas:
 
 ## The idea
 
-*GreenUp* is an application that allows investors to arrange/re-arrange their investment portfolio according to companies' ESG (Enviromental, Social and Governance) performance. This is acheived by suggesting stocks that have higher ESG ratings and, in the mean time, perform similar to what the user already has in his/her investment portfolio.
+*greenup* is an application that allows investors to arrange/re-arrange their investment portfolio according to companies' ESG (Enviromental, Social and Governance) performance. This is acheived by suggesting stocks that have higher ESG ratings and, in the mean time, perform similar to what the user already has in his/her investment portfolio.
 
 ## Demo video
 
@@ -62,9 +62,9 @@ Technology assists in 3 main areas:
 
 Check the below diagram:
 
-![GreenUp Architecture](./docs/greenup_arch.png "GreenUp Architecture")
+![greenup Architecture](./docs/greenup_arch.png "greenup Architecture")
 
-1. User accesses the *GreenUp* UI and enters a ticker (stock symbol)
+1. User accesses the *greenup* UI and enters a ticker (stock symbol)
 
 2. Backend extracts company details, processes stock correlation and retrieves ESG ratings 
 
@@ -86,7 +86,7 @@ Technically speaking, the application has three main components:
 
 The project has been deployed in a Kubernetes cluster within *IBM Cloud*. Here is the development plan for the project as well as the delivered items:
 
-![GreenUp Roadmap](./docs/roadmap.png "GreenUp Roadmap")
+![greenup Roadmap](./docs/roadmap.png "greenup Roadmap")
 
 ## Getting started
 
