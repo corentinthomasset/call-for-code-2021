@@ -127,6 +127,8 @@ The project has been deployed in a Kubernetes cluster within *IBM Cloud*. Here i
 
 ## Versioning
 
+The project uses semantic versioning. Check the available versions [here](https://github.com/corentinthomasset/ibm-call-for-code-2021/tags).
+
 ## Authors
 
 * Corentin Thomasset
