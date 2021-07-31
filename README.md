@@ -53,6 +53,10 @@ Technology assists in 3 main areas:
 
 ## Demo video
 
+https://user-images.githubusercontent.com/33403840/127754368-9dd3f9b9-156a-48d7-a883-9382e6fe651e.mp4
+
+[Download HD video](https://drive.google.com/file/d/1r4yQIUOFfheM4IeZZv-ku4P7PRCkj73v/view)
+
 ## Architecture
 
 Check the below diagram:
@@ -102,13 +106,13 @@ The project has been deployed in a Kubernetes cluster within *IBM Cloud*. Here i
 
 ## Built with
 
+- [Kubernetes on IBM Cloud](https://cloud.ibm.com/catalog?search=kubernetes%20service#search_results) - Service infrastructure
+
 - [IBM Cloudant](https://cloud.ibm.com/catalog?search=cloudant#search_results) - Storage for JSON documents
 
 - [Python Flask](https://flask.palletsprojects.com/en/2.0.x/) - REST API
 
 - [Vue.js](https://vuejs.org/) - User interface
-
-- [Kubernetes on IBM Cloud](https://cloud.ibm.com/catalog?search=kubernetes%20service#search_results) - Service infrastructure
 
 ## Contributing
 
@@ -128,13 +132,13 @@ The project uses semantic versioning. Check the available versions [here](https:
 
 * Corentin Thomasset
 
-* Fabio De Oliveira Padilha
+* Ali Majdzadeh-Kohbanani
 
 * Mitra Nami
 
 * Sheetal Lamba
 
-* Ali Majdzadeh-Kohbanani
+* Fabio De Oliveira Padilha
 
 ## License
 
@@ -142,4 +146,4 @@ This project is licensed under the Apache 2 License - see the [LICENSE](LICENSE)
 
 ## Acknowledgments
 
-- [ESG Enterprise](https://www.esgenterprise.com/) for providing access to their ESG API
+- [ESG Enterprise](https://www.esgenterprise.com/) for providing access to their ESG API.
