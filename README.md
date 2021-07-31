@@ -1,7 +1,4 @@
-# greenup
-
-*greenup* your portfolio, save the *planet*
-
+![cover](./docs/cover.jpg "greenup cover")
 ## Contents
 
 - [greenup](#greenup)
