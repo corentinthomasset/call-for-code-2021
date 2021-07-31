@@ -1,39 +1,37 @@
 ![cover](./docs/cover.jpg "greenup cover")
 ## Contents
-
-- [greenup](#greenup)
   
-  - [Contents](#contents)
+- [Contents](#contents)
   
-  - [What's the problem](#the-problem)
+- [What's the problem](#the-problem)
   
-  - [How can technology help?](#how-can-technology-help)
+- [How can technology help?](#how-can-technology-help)
   
-  - [The idea](#the-idea)
+- [The idea](#the-idea)
   
-  - [Demo video](#demo-video)
+- [Demo video](#demo-video)
   
-  - [Architecture](#architecture)
+- [Architecture](#architecture)
   
-  - [Details](#details)
+- [Details](#details)
   
-  - [Roadmap](#roadmap)
+- [Roadmap](#roadmap)
   
-  - [Getting started](#getting-started)
+- [Getting started](#getting-started)
   
-  - [Live demo](#live-demo)
+- [Live demo](#live-demo)
   
-  - [Built with](#built-with)
+- [Built with](#built-with)
   
-  - [Contributing](#contributing)
+- [Contributing](#contributing)
   
-  - [Versioning](#versioning)
+- [Versioning](#versioning)
   
-  - [Authors](#authors)
+- [Authors](#authors)
   
-  - [License](#liecense)
+- [License](#liecense)
   
-  - [Acknowledgments](#acknowledgments)
+- [Acknowledgments](#acknowledgments)
 
 ## The problem
 
