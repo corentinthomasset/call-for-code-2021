@@ -1,5 +1,7 @@
 # GreenUp
 
+*GreenUp* your investments, save the *planet*
+
 ## Contents
 
 - [GreenUp](#greenup)
@@ -38,7 +40,17 @@
 
 ## The problem
 
+Investment triggers growth both for the investee and the investor; now, what if we could direct the investments towards sustainable companies? Quick answer is that a *third entity* would be implicitly added to the investee-investor equation that nowadays requires the highest level of attention. Environement, planet, earth or simply the *third entity* would benefit the most from investing in sustainable companies.
+
 ## How can technology help?
+
+Technology assists in 3 main areas:
+
+1. _Data_: This is the building block. We need to extract, normalize and process data that supports investments decisions.
+
+2. _Platform_: Tools and infrastructure that support the service. 
+
+3. _Decision Making_: The logic that enables users to decide on their investment choices.
 
 ## The idea
 
@@ -52,23 +64,39 @@ Check the below diagram:
 
 ![GreenUp Architecture](./docs/greenup_arch.png "GreenUp Architecture")
 
+1. User accesses the *GreenUp* UI and enters a ticker (stock symbol)
+
+2. Backend extracts company details, processes stock correlation and retrieves ESG ratings 
+
+3. UI provide suggestions based on stock performance and ESG ratings
+
+4. User can form an investment portfolio based on the suggestions
+
 ## Details
 
 Technically speaking, the application has three main components:
 
-1. Data store: A repository where ESG ratings and indicators along with stock correlation data is stored. We use resources like ***ESG Enterprise*** and ***Yahoo Finance*** to extract these data and store it in the ***IBM Cloud***.
+1. Data store: A repository where ESG ratings and indicators along with stock correlation data and company details are stored. We use resources like ***ESG Enterprise*** and ***Yahoo Finance*** to extract these data and store it in the ***IBM Cloud***.
 
 2. API: A RESTful API in front of the data store which exposes the data in the form of services consumable by the UI.
 
-3. UI: A web-based and Mobile application which leverages the API to implement/deliver the idea to the end users.
+3. UI: A web-based application which leverages the API to implement/deliver the service to the end users.
 
 ## Roadmap
 
-Check the below diagram:
+The project has been deployed in a Kubernetes cluster within *IBM Cloud*. Here is the development plan for the project as well as the delivered items:
 
 ![GreenUp Roadmap](./docs/roadmap.png "GreenUp Roadmap")
 
 ## Getting started
+
+1. Browse the UI
+
+2. Enter a ticker (stock symbol) to start
+
+3. Review the suggestions provided by the system
+
+4. Organize an investment portfolio based on suggestions
 
 ## Live demo
 
@@ -100,6 +128,16 @@ Check the below diagram:
 ## Versioning
 
 ## Authors
+
+* Corentin Thomasset
+
+* Fabio De Oliveira Padilha
+
+* Mitra Nami
+
+* Sheetal Lamba
+
+* Ali Majdzadeh-Kohbanani
 
 ## License
 
