@@ -1,4 +1,4 @@
-# Utilities
+# greenup - Utilities
 
 ### Extract and save company info and market data
 

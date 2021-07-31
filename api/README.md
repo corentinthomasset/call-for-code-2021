@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/badge/license-Apache2-blue.svg?style=flat" alt="Apache 2">
 </p>
 
-# ESG REST API
+# greenup - ESG REST API
 
 This is a Flask-based RESTful API that exposes the following data items:
 
@@ -30,7 +30,7 @@ This is a Flask-based RESTful API that exposes the following data items:
 
 ##### Description:
 
-Get health status of the Flask application
+Get health status of
 
 ##### Responses
 
@@ -51,6 +51,47 @@ Get Prometheus metrics
 | Code | Description        |
 | ---- | ------------------ |
 | 200  | Prometheus metrics |
+
+### /info/{symbol}
+
+#### GET
+
+##### Description:
+
+Get details for a given company
+
+##### Parameters
+
+| Name   | Located in | Description            | Required | Schema |
+| ------ | ---------- | ---------------------- | -------- | ------ |
+| symbol | path       | Company's stock symbol | Yes      | string |
+
+##### Responses
+
+| Code | Description     |
+| ---- | --------------- |
+| 200  | Company details |
+
+### /correlation/{symbol}
+
+#### GET
+
+##### Description:
+
+Get correlated stocks for a given ticker based on the DJIA index
+
+##### Parameters
+
+| Name   | Located in | Description                                                         | Required | Schema |
+| ------ | ---------- | ------------------------------------------------------------------- | -------- | ------ |
+| symbol | path       | Company's stock symbol                                              | Yes      | string |
+| period | query      | Fetch market data for the given company during the specified period | No       | string |
+
+##### Responses
+
+| Code | Description       |
+| ---- | ----------------- |
+| 200  | Correlated stocks |
 
 ### /ratings/{symbol}
 
@@ -98,17 +139,7 @@ Get ESG indicators for a given company
 
 ##### Description:
 
-Get all details for a given company. These details include:
-
-* Info
-
-* Market data
-
-* ESG ratings
-
-* ESG indicators
-
-* Market data correlation to DJIA index
+Get all details for a given company
 
 ##### Parameters
 
@@ -171,11 +202,12 @@ Get all details for a given company. These details include:
 
 #### catchAll
 
-| Name        | Type   | Description | Required |
-| ----------- | ------ | ----------- | -------- |
-| target      | string |             |          |
-| inidicators | object |             | No       |
-| ratings     | object |             | No       |
+| Name        | Type   | Description | Required          |
+| ----------- | ------ | ----------- | ----------------- |
+| inidicators | object |             | No                |
+| ratings     | object |             | No                |
+| info        | object |             | No                |
+| market_data | object |             | No#### Deployment |
 
 #### Deployment
 

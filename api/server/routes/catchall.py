@@ -37,13 +37,13 @@ def ticker_details(symbol, backwards):
             if conn.exists():
                 logging.info(f'Using existing {aspect} DB: {db}')
     
-            selector={'$text': symbol}
+            field = ('cfc_company' if aspect == 'details' else 'stock_symbol')
+            selector={field: symbol.upper()}
             try:
                 resp = conn.get_query_result(selector,
-                                             use_index='byStockSymbol',
                                              raw_result=True,
                                              limit=100)
-                #time.sleep(0.3)
+                time.sleep(0.075)
             except ResultException as e:
                 logging.critical(f'Query/{aspect} failed: {e}')
                 reply[aspect] = {}

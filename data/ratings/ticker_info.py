@@ -7,7 +7,7 @@ import warnings
 import time
 
 from cloudant.client import Cloudant
-from cloudant.error import CloudantException
+from cloudant.error import ResultException, CloudantException
 from cloudant.result import Result, ResultByKey
 
 import yfinance as yf
@@ -30,22 +30,10 @@ class Detail(object):
             detail = dict()
             detail['cfc_company'] = company
 
-            ticker = yf.Ticker(company)
-            info = ticker.info
-            history = ticker.history(period=backwards)
-            missing = list(yf.shared._ERRORS.keys())
-
-            if len(missing) != 0:
-                detail['info'] = {}
-                detail['market_data'] = {}
-            else:
-                detail['info'] = info
-                detail['market_data'] = json.loads(history.to_json(date_format='iso'))
-
             try:
-                selector={'$text': company}
+                time.sleep(0.2)
+                selector={'cfc_company': company}
                 avail = conn.get_query_result(selector,
-                                              use_index='byStockSymbol',
                                               raw_result=True,
                                               limit=100)
             except ResultException as e:
@@ -53,9 +41,23 @@ class Detail(object):
             else:
                 if len(avail['docs']) == 0:
                     logging.info(f'Details for [{company}] has not been previously processed ... adding')
-                    if conn.create_document(detail).exists():
-                        logging.info(f'Details for [{company}] stored in DB')
-                        time.sleep(0.3)
+
+                    ticker = yf.Ticker(company)
+                    info = ticker.info
+                    history = ticker.history(period=backwards)
+                    missing = list(yf.shared._ERRORS.keys())
+
+                    if len(missing) != 0:
+                        logging.warning(f'Error extracting company details and/or market data')
+
+                        detail['info'] = {}
+                        detail['market_data'] = {}
+                    else:
+                        detail['info'] = info
+                        detail['market_data'] = json.loads(history.to_json(date_format='iso'))
+
+                        if conn.create_document(detail).exists():
+                            logging.info(f'Details for [{company}] stored in DB')
                 else:
                     logging.warning(f'Details for [{company}] has been previously processed ... skipping')
 
