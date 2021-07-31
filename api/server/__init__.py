@@ -10,7 +10,7 @@ import atexit
 from cloudant.client import Cloudant
 from cloudant.error import CloudantException
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 app = Flask(__name__, template_folder="../public", static_folder="../public", static_url_path='')
 app.config['JSON_SORT_KEYS'] = False
 CORS(app)

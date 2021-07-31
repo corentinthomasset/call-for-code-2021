@@ -79,10 +79,9 @@ class ESG(object):
                                     docs = await resp.json()
 
                                     # Search CouchDB to see whether we have previously stored ratings/indicators for this ticker
-                                    selector={'$text': company}
+                                    selector={'stock_symbol': company}
                                     try:
                                         avail = spec['db'].get_query_result(selector,
-                                                                            use_index='byStockSymbol',
                                                                             raw_result=True,
                                                                             limit=100)
                                     except ResultException as e:
