@@ -3,7 +3,7 @@
   
 - [Contents](#contents)
   
-- [What's the problem](#the-problem)
+- [The problem](#the-problem)
   
 - [How can technology help?](#how-can-technology-help)
   
@@ -94,7 +94,7 @@ The project has been deployed in a Kubernetes cluster within *IBM Cloud*. Here i
 
 ## Getting started
 
-1. Browse the UI
+1. Browse the [UI](http://corentinthomasset.me/call-for-code/#/)
 
 2. Enter a ticker (stock symbol) to start
 
@@ -106,8 +106,8 @@ The project has been deployed in a Kubernetes cluster within *IBM Cloud*. Here i
 
 | Endpoint | Address                                         |
 | -------- | ----------------------------------------------- |
-| API      | http://52.117.182.214:31587/swagger/api-docs/#/ |
 | UI       | http://corentinthomasset.me/call-for-code/#/    |
+| API      | http://52.117.182.214:31587/swagger/api-docs/#/ |
 
 ## Built with
 
