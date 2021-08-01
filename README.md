@@ -152,3 +152,8 @@ This project is licensed under the Apache 2 License - see the [LICENSE](LICENSE)
 ## Acknowledgments
 
 - [ESG Enterprise](https://www.esgenterprise.com/) for providing access to their ESG API.
+- [Music video from Uppbeat (free for Creators!)](https://uppbeat.io/t/prigida/pleasant-place): License code: UDQHOCYINK0NQIDF
+- Stock footages by Videvo, downloaded from [mazwai.com](https://mazwai.com/)
+- 
+
+
