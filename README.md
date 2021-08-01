@@ -58,7 +58,7 @@ We believe that a global adoption of sustainable investing could have a signific
 
 ## Demo video
 
-https://user-images.githubusercontent.com/33403840/127754368-9dd3f9b9-156a-48d7-a883-9382e6fe651e.mp4
+https://user-images.githubusercontent.com/33403840/127757256-e19d5e77-e8ce-4862-ae50-f335fd76e954.mp4
 
 [Download HD video](https://drive.google.com/file/d/1r4yQIUOFfheM4IeZZv-ku4P7PRCkj73v/view)
 
